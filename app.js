@@ -1,5 +1,6 @@
 const app = require('express')();
 const http = require('http').createServer(app);
+const PORT = process.env.PORT;
 
 const io = require('socket.io')(http);
 
@@ -18,6 +19,6 @@ io.on('connection', (socket) => {
 });
 
 // express 서버를 실행할 때 필요한 포트 정의 및 실행 시 callback 함수를 받습니다
-http.listen(80, () => {
-    console.log('start! express server');
+http.listen(PORT, () => {
+    console.log('start! express server : ' + PORT);
 });
