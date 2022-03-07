@@ -1,0 +1,23 @@
+{
+  "name": "imbutler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whrhkdgh1104/imbutler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/whrhkdgh1104/imbutler/issues"
+  },
+  "homepage": "https://github.com/whrhkdgh1104/imbutler#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "socket.io": "^4.4.1"
+  }
+}
