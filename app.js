@@ -1,59 +1,41 @@
-const app = require('express')();
-const http = require('http').createServer(app);
-const PORT = process.env.PORT;
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-const admin = require('firebase-admin');
-const serviceAccount = require('./imbutler-7ed53-firebase-adminsdk-pfsc9-a1ba829fb1.json');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-const fcm_admin = admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-const io = require('socket.io')(http);
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
-})
-
-const registrationToken = 'cqf9yRdMRMmv1nkLEf4M7O:APA91bFlGP9SaovOxEWtyOAlOiKH-3Pg2bc-ioaOFPkvtKqghl7HVs5i1H84h7Ij3PEhvgjraGZbsLBlD502RLYlP5c_hLLVSCH2mpsn6gaUQH7Z4wPPf1IuDQ_tMSxtakSnw0NhR2nQ';
-
-io.on('connection', (socket) => {
-    socket.on('request_message', (msg) => {
-        io.emit('response_message', msg);
-        
-        var message = {
-            notification: {
-                title: 'Test Title',
-                body: msg
-            },
-            android: {
-              notification: {
-                click_action: 'NOTIFICATION_CHAT'
-              }
-            },
-            data: {
-                title: 'Test Title',
-                body: msg
-            },
-            token: registrationToken
-        };
-
-        fcm_admin.messaging().send(message)
-            .then((response) => {
-                console.log('Successfully sent message:', response);
-            })
-            .catch((error) => {
-                console.log('Error sending message:', error);
-            });
-
-    });
-
-    socket.on('disconnect', async() => {
-        console.log('user disconnected');
-    });
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
 
-// express 서버를 실행할 때 필요한 포트 정의 및 실행 시 callback 함수를 받습니다
-http.listen(80, () => {
-    console.log('start! express server : ' + PORT);
-});
+module.exports = app;
