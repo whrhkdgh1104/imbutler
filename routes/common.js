@@ -35,38 +35,22 @@ module.exports.register = register;
 
 /* 로그인 */
 function login_check(username, password, result) {
-    var login = new Promise((resolve, reject) => {
-        db.query('select * from member where mb_username = ?',
-                    username, (err, row) => {
-                        if(err) {
-                            console.log(err);
-                            reject(err);
-                        } else
-                            if(row.length > 0)
-                                resolve(password);
-                            else
-                                reject(Error('ERR_ID'));
-                    });
-    });
-    login.then()
     db.query('select * from member where mb_username = ?',
                 username, (err, row) => {
-                    var result_;
                     if(err) {
                         console.log(err);
-                        result_ = err.code;
+                        return result(err.code);
                     }
                     else
                         if(row.length > 0)
                             bcrypt.compare(password, row[0].mb_password, (err, result__) => {
                                 if(result__)
-                                    result_ = 'SUCCESS';
+                                    return result('SUCCESS');
                                 else
-                                    result_ = 'ERR_PW';
+                                    return result('ERR_PW');
                             });
                         else
-                            result_ = 'ERR_ID';
-                    return result(result_);
+                            return result('ERR_ID');
                 });
 }
 module.exports.login_check = login_check;
