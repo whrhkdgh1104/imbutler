@@ -40,7 +40,7 @@ router.post('/register', function(req, res, next) {
 /* 로그인 페이지 렌더링 */
 router.get('/login', function(req, res, next) {
   if(req.session.logined) {
-    res.redirect('/');
+    common.back(res);
   } else {
     res.render('member/login');
   }

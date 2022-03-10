@@ -2,6 +2,12 @@ const db = require('../db/config');
 const bcrypt = require('bcrypt');
 const bcrypt_saltRounds = 10;
 
+/* 뒤로가기(back) */
+function back(res) {
+    res.send('<script type="text/javascript">history.back();</script>');
+}
+module.exports.back = back;
+
 /* 메세지 창 띄우기(alert) */
 function alert(res, msg, url = '') {
     var script = '<script type="text/javascript">alert("' + msg + '");</script>';
