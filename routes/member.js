@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 /* 회원가입 페이지 렌더링 */
 router.get('/register', function(req, res, next) {
   if(req.session.logined) {
-    res.redirect('/');
+    common.href(res);
   } else {
     res.render('member/register');
   }
@@ -40,8 +40,7 @@ router.post('/register', function(req, res, next) {
 /* 로그인 페이지 렌더링 */
 router.get('/login', function(req, res, next) {
   if(req.session.logined) {
-    console.log('z');
-    common.back(res);
+    common.href(res);
   } else {
     res.render('member/login');
   }

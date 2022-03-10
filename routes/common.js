@@ -2,20 +2,25 @@ const db = require('../db/config');
 const bcrypt = require('bcrypt');
 const bcrypt_saltRounds = 10;
 
-/* 뒤로가기(back) */
-function back(res) {
-    res.send('<script type="text/javascript">history.back();</script>');
+/* 페이지 이동(href) */
+function href(res, url = '') {
+    var script;
+    if(url)
+        script = '<script type="text/javascript">location.href="' + url + '";</script>';
+    else
+        script = '<script type="text/javascript">history.back();</script>';
+
+    res.send(script);
 }
-module.exports.back = back;
+module.exports.href = href;
 
 /* 메세지 창 띄우기(alert) */
 function alert(res, msg, url = '') {
     var script = '<script type="text/javascript">alert("' + msg + '");</script>';
-    if(url) {
+    if(url)
         script += '<script type="text/javascript">location.href="' + url + '";</script>';
-    } else {
+    else
         script += '<script type="text/javascript">history.back();</script>';
-    }
 
     res.send(script);
 }
@@ -27,13 +32,11 @@ function register(res, param, result) {
         param[1] = hash;
         db.query('insert into member(`mb_username`, `mb_password`, `mb_name`, `mb_phone`, `mb_address`) values (?,?,?,?,?)',
                     param, (err, row) => {
-                        var result_;
                         if(err) {
                             console.log(err);
-                            result_ = err.code;
+                            return result(err.code);
                         } else
-                            result_ = 'SUCCESS';
-                        return result(result_);
+                            return result('SUCCESS');
                     });
     })
 }
