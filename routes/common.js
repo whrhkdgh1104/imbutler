@@ -34,7 +34,7 @@ function register(res, param, result) {
 module.exports.register = register;
 
 /* 로그인 */
-function login_check(username, password, result) {
+function login(username, password, result) {
     db.query('select * from member where mb_username = ?',
                 username, (err, row) => {
                     if(err) {
@@ -53,4 +53,4 @@ function login_check(username, password, result) {
                             return result('ERR_ID');
                 });
 }
-module.exports.login_check = login_check;
+module.exports.login = login;
