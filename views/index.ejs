@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <%-JSON.stringify(session)%>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<% include ./head.ejs %>
+
+  <h1><%= title %></h1>
+  <%-JSON.stringify(session)%>
+  <p>Welcome to <%= title %></p>
+
+<% include ./tail.ejs %>

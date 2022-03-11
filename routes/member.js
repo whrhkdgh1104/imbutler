@@ -12,7 +12,9 @@ router.get('/register', function(req, res, next) {
   if(req.session.logined) {
     common.href(res);
   } else {
-    res.render('member/register');
+    res.render('member/register', {
+      title: '회원가입'
+    });
   }
 });
 
@@ -42,7 +44,9 @@ router.get('/login', function(req, res, next) {
   if(req.session.logined) {
     common.href(res);
   } else {
-    res.render('member/login');
+    res.render('member/login', {
+      title: '로그인'
+    });
   }
 });
 
