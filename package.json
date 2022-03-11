@@ -5,11 +5,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "debug": "nodemon ./bin/www -e js,mjs,json,css,ejs",
-    "build": "concurrently \"git add .\" \"git commit -m 'test commit'\" \"git push\""
+    "commit": "git commit -m 'test commit'"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "concurrently": "^7.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
