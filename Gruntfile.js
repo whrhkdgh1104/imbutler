@@ -1,3 +1,5 @@
+var path = require("path");
+
 module.exports = function (grunt) {
 
     grunt.initConfig({
@@ -15,9 +17,9 @@ module.exports = function (grunt) {
         },
         webpack: {
             build: {
-                entry: './src/app.js',
+                entry: './public/script/app.js',
                 output: {
-                    path: 'build',
+                    path: path.resolve(__dirname, 'build'),
                     filename: 'app.js'
                 }
             }
@@ -26,4 +28,4 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-webpack');
     grunt.registerTask('dev', ['copy:dev', 'webpack:dev']);
-}
+};
