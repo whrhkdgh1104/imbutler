@@ -1412,3 +1412,9 @@ section {
   color: red;
   font-size: 0.9em;
 }
+
+/* CHAT */
+#chat {
+  padding: 140px 0 40px 0;
+  height: 100vh;
+}
