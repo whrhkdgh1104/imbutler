@@ -24,7 +24,7 @@ router.post('/register', function(req, res, next) {
                  req.body.password,
                  req.body.name,
                  req.body.phone,
-                 req.body.address];
+                 req.body.addrRoad + ' ' + req.body.addrDetail];
   common.register(res, param, (result) => {
     switch(result) {
       case 'SUCCESS':
@@ -77,6 +77,15 @@ router.post('/login', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   req.session.destroy();
   res.redirect('/member/login');
+});
+
+/* 주소 검색 팝업 렌더링 */
+router.post('/popup/jusoPopup', function(req, res, next) {
+  res.locals = req.body;
+  res.render('member/jusoPopup');
+});
+router.get('/popup/jusoPopup', function(req, res, next) {
+  res.render('member/jusoPopup');
 });
 
 module.exports = router;

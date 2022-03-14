@@ -1,12 +1,94 @@
 <% include ../head.ejs %>
 
-    <form action="/member/register" method="post">
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <input type="text" name="name">
-        <input type="text" name="phone">
-        <input type="text" name="address">
-        <button type="submit">Register</button>
-    </form>
+
+<section id="sign-in" class="services section-bg">
+    <div class="container">
+        <div class="box">
+            <form class="form-signin" action="/member/register" onsubmit="return onSubmit(this);" method="POST">
+                <h2 class="form-signin-heading">SIGN UP</h2>
+                <div class="form-group">
+                    <input type="email" id="username" name="username" class="form-control" placeholder="example@email.com" required autofocus>
+                </div>
+                <div class="form-group mt-2">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호" required>
+                    <input type="password" id="password_confirm" name="password_confirm" class="form-control mt-1" placeholder="비밀번호 확인" required>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" id="name" name="name" class="form-control" placeholder="이름" required>
+                </div>
+                <div class="form-group mt-2">
+                    <input type="text" id="phone" name="phone" class="form-control" placeholder="전화번호" required>
+                </div>
+                <div class="form-group mt-2">
+                    <div class="input-group">
+                        <input type="text" id="addrRoad" name="addrRoad" class="form-control" placeholder="도로명주소" onclick="goPopup()" readonly>
+                        <input type="button" id="addrSearch" class="btn btn-sm btn-primary btn-block" onclick="goPopup()" value="주소검색">
+                    </div>
+                    <input type="text" id="addrDetail" name="addrDetail" class="form-control mt-1" placeholder="상세주소" required>
+                </div>
+                <div id="alert" class="form-group mt-2"></div>
+                <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Sign up</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function onSubmit(f) {
+        if(f.password.value != f.password_confirm.value) {
+            alertMsg('비밀번호가 일치하지 않습니다.');
+            f.password_confirm.value = '';
+            f.password_confirm.focus();
+            return false;
+        }
+        if(!f.addrRoad.value) {
+            alertMsg('주소가 입력되지 않았습니다.');
+            f.addrSearch.focus();
+            return false;
+        }
+        return true;
+    }
+    function alertMsg(msg) {
+        document.getElementById('alert').innerHTML = '* ' + msg;
+    }
+    function goPopup() {
+      var pop = window.open(
+        '/member/popup/jusoPopup',
+        'pop',
+        'width=570,height=420, scrollbars=yes, resizable=yes'
+      );
+    }
+    function jusoCallBack(
+      roadFullAddr,
+      roadAddrPart1,
+      addrDetail,
+      roadAddrPart2,
+      engAddr,
+      jibunAddr,
+      zipNo,
+      admCd,
+      rnMgtSn,
+      bdMgtSn,
+      detBdNmList,
+      bdNm,
+      bdKdcd,
+      siNm,
+      sggNm,
+      emdNm,
+      liNm,
+      rn,
+      udrtYn,
+      buldMnnm,
+      buldSlno,
+      mtYn,
+      lnbrMnnm,
+      lnbrSlno,
+      emdNo
+    ) {
+      // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다
+      document.getElementById('addrRoad').value = roadAddrPart1;
+      document.getElementById('addrDetail').value = addrDetail;
+    }
+</script>
 
 <% include ../tail.ejs %>

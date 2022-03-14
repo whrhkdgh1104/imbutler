@@ -21,4 +21,9 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+/* 주소검색 */
+router.get('/jusoElement', function(req, res, next) {
+  res.render('member/jusoElement');
+});
+
 module.exports = router;
