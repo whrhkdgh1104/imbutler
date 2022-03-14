@@ -1373,16 +1373,18 @@ section {
   transition: all 0.3s ease-in-out;
   text-align: center;
   margin: auto;
-  max-width: 460px;
+  max-width: 400px;
 }
 #sign-in input {
   padding: 10px 15px;
+  max-width: 300px;
+  margin: auto;
 }
 #sign-in input, #sign-in textarea {
   border-radius: 0;
-    box-shadow: none;
-    border: 1px solid #dce1ec;
-    font-size: 14px;
+  box-shadow: none;
+  border: 1px solid #dce1ec;
+  font-size: 14px;
 }
 #sign-in input:focus, #sign-in textarea:focus {
   border-color: #1bb1dc;
@@ -1398,4 +1400,7 @@ section {
 #sign-in button[type=submit]:hover {
   background: #0a98c0;
   cursor: pointer;
+}
+#sign-in .checkbox {
+  text-align: right;
 }

@@ -1,3 +1,4 @@
+<% DEBUG = true %>
 <% HTTPS = true %>
 <% URL = 'imbutler.herokuapp.com' %>
 
@@ -5,6 +6,7 @@
 <% if(HTTPS) HTTP_PRE = 'https://' %>
 
 <% IMBUTLER_URL = HTTP_PRE + URL %>
+<% if(DEBUG) IMBUTLER_URL = 'http://localhost' %>
 <% CSS_URL = IMBUTLER_URL + '/assets/css' %>
 <% JS_URL = IMBUTLER_URL + '/assets/js' %>
 <% IMG_URL = IMBUTLER_URL + '/assets/img' %>
