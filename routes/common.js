@@ -63,3 +63,19 @@ function login(username, password, result) {
                 });
 }
 module.exports.login = login;
+
+/* 회원정보 */
+function getUser(username, user) {
+    db.query('select * from member where mb_username = ?', username, (err, row) => {
+        if(err) {
+            console.log(err);
+            user(null);
+        }
+        else if(row.length > 0) {
+            user(row[0]);
+        }
+        else
+            user(null);
+    });
+}
+module.exports.getUser = getUser;

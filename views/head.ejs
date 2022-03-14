@@ -36,39 +36,32 @@
   
         <nav id="navbar" class="navbar order-last order-lg-0">
           <ul>
-            <li><a class="nav-link scrollto active" href="<%= IMBUTLER_URL %>#hero">Home</a></li>
+            <li><a class="nav-link scrollto" href="<%= IMBUTLER_URL %>#hero">Home</a></li>
             <li><a class="nav-link scrollto" href="<%= IMBUTLER_URL %>#about">About</a></li>
             <li><a class="nav-link scrollto" href="<%= IMBUTLER_URL %>#services">Services</a></li>
             <li><a class="nav-link scrollto " href="<%= IMBUTLER_URL %>#portfolio">Portfolio</a></li>
             <li><a class="nav-link scrollto" href="<%= IMBUTLER_URL %>#team">Team</a></li>
-            <li class="dropdown"><a href="<%= IMBUTLER_URL %>#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
-              <ul>
-                <li><a href="<%= IMBUTLER_URL %>#">Drop Down 1</a></li>
-                <li class="dropdown"><a href="<%= IMBUTLER_URL %>#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                  <ul>
-                    <li><a href="<%= IMBUTLER_URL %>#">Deep Drop Down 1</a></li>
-                    <li><a href="<%= IMBUTLER_URL %>#">Deep Drop Down 2</a></li>
-                    <li><a href="<%= IMBUTLER_URL %>#">Deep Drop Down 3</a></li>
-                    <li><a href="<%= IMBUTLER_URL %>#">Deep Drop Down 4</a></li>
-                    <li><a href="<%= IMBUTLER_URL %>#">Deep Drop Down 5</a></li>
-                  </ul>
-                </li>
-                <li><a href="<%= IMBUTLER_URL %>#">Drop Down 2</a></li>
-                <li><a href="<%= IMBUTLER_URL %>#">Drop Down 3</a></li>
-                <li><a href="<%= IMBUTLER_URL %>#">Drop Down 4</a></li>
-              </ul>
-            </li>
             <li><a class="nav-link scrollto" href="<%= IMBUTLER_URL %>#footer">Contact</a></li>
+            <% if(user) { %>
+              <li class="dropdown"><a href="<%= IMBUTLER_URL %>#"><span><%=user?user.mb_name:''%>님</span> <i class="bi bi-chevron-down"></i></a>
+                <ul>
+                  <li><a href="#">회원정보</a></li>
+                  <li><a href="<%= IMBUTLER_URL %>/member/logout">로그아웃</a></li>
+                </ul>
+              </li>
+            <% } else { %>
+              <li><a class="nav-link scrollto" href="<%= IMBUTLER_URL %>/member/login#sign-in">Login</a></li>
+            <% } %>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
   
-        <div class="social-links">
+        <!-- <div class="social-links">
           <a href="<%= IMBUTLER_URL %>#" class="twitter"><i class="bi bi-twitter"></i></a>
           <a href="<%= IMBUTLER_URL %>#" class="facebook"><i class="bi bi-facebook"></i></a>
           <a href="<%= IMBUTLER_URL %>#" class="linkedin"><i class="bi bi-linkedin"></i></a>
           <a href="<%= IMBUTLER_URL %>#" class="instagram"><i class="bi bi-instagram"></i></a>
-        </div>
+        </div> -->
   
       </div>
     </header><!-- End Header -->

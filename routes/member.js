@@ -13,7 +13,8 @@ router.get('/register', function(req, res, next) {
     common.href(res);
   } else {
     res.render('member/register', {
-      title: '회원가입'
+      title: '회원가입',
+      user: req.session.user
     });
   }
 });
@@ -45,7 +46,8 @@ router.get('/login', function(req, res, next) {
     common.href(res);
   } else {
     res.render('member/login', {
-      title: '로그인'
+      title: '로그인',
+      user: req.session.user
     });
   }
 });
@@ -57,8 +59,10 @@ router.post('/login', function(req, res, next) {
       case 'SUCCESS':
         req.session.regenerate(function() {
           req.session.logined = true;
-          req.session.username = req.body.username;
-          res.redirect('/');
+          common.getUser(req.body.username, (user) => {
+            req.session.user = user;
+            res.redirect('/');
+          });
         });
         break;
       case 'ERR_ID':
@@ -77,15 +81,6 @@ router.post('/login', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   req.session.destroy();
   res.redirect('/member/login');
-});
-
-/* 주소 검색 팝업 렌더링 */
-router.post('/popup/jusoPopup', function(req, res, next) {
-  res.locals = req.body;
-  res.render('member/jusoPopup');
-});
-router.get('/popup/jusoPopup', function(req, res, next) {
-  res.render('member/jusoPopup');
 });
 
 module.exports = router;
