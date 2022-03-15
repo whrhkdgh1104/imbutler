@@ -21,6 +21,13 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+/* 회원정보 */
+router.post('/getUser', function(req, res, next) {
+  common.getUser(req.body.username, (user) => {
+    res.send(user);
+  })
+})
+
 /* 주소검색 */
 router.get('/jusoElement', function(req, res, next) {
   res.render('member/jusoElement');

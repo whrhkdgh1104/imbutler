@@ -3,7 +3,7 @@
     <section id="sign-in" class="services section-bg">
         <div class="container">
             <div class="box">
-                <form class="form-signin" action="/member/login" method="POST">
+                <form class="form-signin" action="/member/login?callback=<%=callback%>" method="POST">
                     <h2 class="form-signin-heading">SIGN IN</h2>
                     <div class="form-group">
                         <input type="email" id="username" name="username" class="form-control" placeholder="Username" required autofocus>

@@ -94,13 +94,13 @@ var io = require('socket.io')(server);
 var userList = new Array();
 
 io.on('connection', (socket)=>{
-  console.log(socket.handshake.query.username);
+    console.log('user connected(' + socket.handshake.query.username + ')');
     socket.on('request_message', (msg) => {
         console.log('requestmessage');
         io.emit('response_message', msg);
     });
 
     socket.on('disconnect', async () => {
-        console.log('user disconnected');
+        console.log('user disconnected(' + socket.handshake.query.username + ')');
     });
 });

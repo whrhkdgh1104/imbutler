@@ -47,7 +47,8 @@ router.get('/login', function(req, res, next) {
   } else {
     res.render('member/login', {
       title: '로그인',
-      user: req.session.user
+      user: req.session.user,
+      callback: req.query.callback
     });
   }
 });
@@ -61,6 +62,8 @@ router.post('/login', function(req, res, next) {
           req.session.logined = true;
           common.getUser(req.body.username, (user) => {
             req.session.user = user;
+            if(req.query.callback != '')
+              res.redirect(req.query.callback);
             res.redirect('/');
           });
         });
