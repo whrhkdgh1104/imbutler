@@ -41,18 +41,26 @@
       $(() => {
         /** Socket Starts **/
         const socket = io({
-            query : { username : "<%=user?user.mb_name:''%>" }
+            query : {
+                username: "<%=user?user.mb_username:''%>",
+                to: '<%=to%>'
+            }
         });
         
         // 클라이언트에서 reuqest_message 프로토콜로 id='m' 의 input 값을 보낸다.
         $('#msg-send').click(() => {
-          socket.emit('request_message', $('#m').val());
-          $('#m').val('');
-          return false; 
+            var data = {
+                from: "<%=user?user.mb_username:''%>",
+                to: '<%=to%>',
+                msg: $('#m').val()
+            }
+            socket.emit('message', data);
+            $('#m').val('');
+            return false;
         });
 
-        socket.on('response_message', (res) => {
-          $('#messages').prepend($('<li>').text(res));
+        socket.on('message', (res) => {
+            $('#messages').prepend($('<li>').text(res.msg));
         });
 
       });

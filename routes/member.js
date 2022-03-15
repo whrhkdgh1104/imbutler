@@ -35,7 +35,7 @@ router.post('/register', function(req, res, next) {
         common.alert(res, '이미 존재하는 회원입니다.');
         break;
       default:
-        common.alert(res, '에러 발생 : ' + result);
+        common.alert(res, '에러 발생(Register) : ' + result);
     }
   });
 });
@@ -62,9 +62,10 @@ router.post('/login', function(req, res, next) {
           req.session.logined = true;
           common.getUser(req.body.username, (user) => {
             req.session.user = user;
-            if(req.query.callback != '')
+            if(req.query.callback)
               res.redirect(req.query.callback);
-            res.redirect('/');
+            else
+              res.redirect('/');
           });
         });
         break;
@@ -75,7 +76,7 @@ router.post('/login', function(req, res, next) {
         common.alert(res, '비밀번호가 일치하지 않습니다.');
         break;
       default:
-        common.alert(res, '에러발생 : ' + result);
+        common.alert(res, '에러발생(Login) : ' + result);
     }
   });
 });
