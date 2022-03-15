@@ -91,19 +91,26 @@ function onListening() {
 
 var io = require('socket.io')(server);
 
-var userList = new Array();
+var users = new Array();
 
 io.on('connection', (socket)=>{
-    console.log(`[CHAT] user connected(${socket.handshake.query.username} : ${socket.id}) ${socket.handshake.query.to}`);
-    socket.on('message_all', (data) => { //전체 채팅
-        io.emit('message_all', data);
-        console.log(`[CHAT] message all : ${JSON.stringify(data)}`);
-    });
-    socket.on('message', (data) => { //1:1 채팅
-        socket.emit('message', data); //본인에게 전송
-        console.log(`[CHAT] message : ${JSON.stringify(data)}`);
-    });
-    socket.on('disconnect', async () => {
-        console.log(`[CHAT] user disconnected(${socket.handshake.query.username})`);
-    });
+  users.push(socket);
+  console.log(`[CHAT] user connected('${socket.handshake.query.username}'@'${socket.id}' : '${socket.handshake.query.to}')`);
+
+  socket.on('message_all', (data) => { //전체 채팅
+    io.emit('message_all', data);
+    console.log(`[CHAT] message all : ${JSON.stringify(data)}`);
+  });
+  socket.on('message', (data) => { //1:1 채팅
+    users.filter(user =>
+      (user.handshake.query.username == data.from && user.handshake.query.to == data.to) ||
+      (user.handshake.query.username == data.to && user.handshake.query.to == data.from))
+      .forEach((socket_, index, array) => {
+        io.to(socket_.id).emit('message', data);
+      }); //접속된 모든 플랫폼에 전송
+    console.log(`[CHAT] message : ${JSON.stringify(data)}`);
+  });
+  socket.on('disconnect', async () => {
+    console.log(`[CHAT] user disconnected(${socket.handshake.query.username})`);
+  });
 });
