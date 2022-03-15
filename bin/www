@@ -90,6 +90,12 @@ function onListening() {
 }
 
 var io = require('socket.io')(server);
+var admin = require('firebase-admin');
+var serAccount = require('../firebase_adminSDK.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serAccount)
+});
 
 var users = new Array();
 
@@ -107,7 +113,26 @@ io.on('connection', (socket)=>{
       (user.handshake.query.username == data.to && user.handshake.query.to == data.from))
       .forEach((socket_, index, array) => {
         io.to(socket_.id).emit('message', data);
-      }); //접속된 모든 플랫폼에 전송
+      }); //접속된 모든 플랫폼에 전송(Socket.io)
+    
+    var fcm_msg = {
+      data: {
+        title: data.from,
+        body: data.msg,
+        type: 'chat'
+      },
+      token: 'cqf9yRdMRMmv1nkLEf4M7O:APA91bFlGP9SaovOxEWtyOAlOiKH-3Pg2bc-ioaOFPkvtKqghl7HVs5i1H84h7Ij3PEhvgjraGZbsLBlD502RLYlP5c_hLLVSCH2mpsn6gaUQH7Z4wPPf1IuDQ_tMSxtakSnw0NhR2nQ'
+    }
+
+    admin.messaging().send(fcm_msg)
+    .then((response) => {
+      // Response is a message ID string.
+      console.log('Successfully sent message:', response);
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error);
+    });
+
     console.log(`[CHAT] message : ${JSON.stringify(data)}`);
   });
   socket.on('disconnect', async () => {
