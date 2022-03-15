@@ -24,7 +24,10 @@ router.post('/login', function(req, res, next) {
 /* 회원정보 */
 router.post('/getUser', function(req, res, next) {
   common.getUser(req.body.username, (user) => {
-    res.send(user);
+    if(user)
+      res.send(user);
+    else
+      res.send('ERR_NULL');
   })
 })
 
