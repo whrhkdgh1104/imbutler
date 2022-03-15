@@ -40,7 +40,9 @@
     <script>
       $(() => {
         /** Socket Starts **/
-        const socket = io();
+        const socket = io({
+            query : { username : 'test' }
+        });
         
         // 클라이언트에서 reuqest_message 프로토콜로 id='m' 의 input 값을 보낸다.
         $('#msg-send').click(() => {
