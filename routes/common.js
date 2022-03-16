@@ -1,4 +1,4 @@
-const db = require('../db/config');
+const db = require('../config/db_config');
 const bcrypt = require('bcrypt');
 const bcrypt_saltRounds = 10;
 
