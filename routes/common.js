@@ -103,6 +103,7 @@ function remove_token(token, result) {
             return result('SUCCESS');
     });
 }
+module.exports.remove_token = remove_token;
 
 /* FCM Token 정보 */
 function getTokens(username, tokens) {
