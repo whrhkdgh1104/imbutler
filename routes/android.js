@@ -29,6 +29,7 @@ router.post('/login', function(req, res, next) {
 /* 로그아웃 */
 router.post('/logout', function(req, res, next) {
   common.remove_token(req.body.token, (result) => {
+    console.log(req.body.token);
     res.send(result);
   });
 });
