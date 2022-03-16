@@ -6,9 +6,9 @@ const bcrypt_saltRounds = 10;
 function href(res, url = '') {
     var script;
     if(url)
-        script = '<script type="text/javascript">location.href="' + url + '";</script>';
+        script = `<script type="text/javascript">location.href="${url}";</script>`;
     else
-        script = '<script type="text/javascript">history.back();</script>';
+        script = `<script type="text/javascript">history.back();</script>`;
 
     res.send(script);
 }
@@ -16,11 +16,11 @@ module.exports.href = href;
 
 /* 메세지 창 띄우기(alert) */
 function alert(res, msg, url = '') {
-    var script = '<script type="text/javascript">alert("' + msg + '");</script>';
+    var script = `<script type="text/javascript">alert("${msg}");</script>`;
     if(url)
-        script += '<script type="text/javascript">location.href="' + url + '";</script>';
+        script += `<script type="text/javascript">location.href="${url}";</script>`;
     else
-        script += '<script type="text/javascript">history.back();</script>';
+        script += `<script type="text/javascript">history.back();</script>`;
 
     res.send(script);
 }
@@ -33,8 +33,8 @@ function register(res, param, result) {
         db.query('insert into member(`mb_username`, `mb_password`, `mb_name`, `mb_phone`, `mb_address`) values (?,?,?,?,?)',
                     param, (err, row) => {
                         if(err) {
-                            console.log(err);
-                            return result(err.code);
+                            console.log(`register error(insert): ${err}`);
+                            return result(`register error(insert): ${err.code}`);
                         } else
                             return result('SUCCESS');
                     });
@@ -47,8 +47,8 @@ function login(username, password, result) {
     db.query('select * from member where mb_username = ?',
                 username, (err, row) => {
                     if(err) {
-                        console.log(err);
-                        return result(err.code);
+                        console.log(`login error(select): ${err}`);
+                        return result(`login error(select): ${err.code}`);
                     }
                     else
                         if(row.length > 0)
@@ -64,27 +64,27 @@ function login(username, password, result) {
 }
 module.exports.login = login;
 
-/* FCM Token 관리 */
+/* FCM Token 업데이트 */
 function update_token(username, token, result) {
     const param = [username, token];
     db.query('select * from token where tk_token = ?', token, (err, row) => {
         if(err) {
-            console.log(err);
-            return result(err.code);
+            console.log(`update token error(select): ${err}`);
+            return result(`update token error(select): ${err.code}`);
         } else
             if(row.length) {
                 db.query('update token set tk_username = ? where tk_token = ?', param, (err, row) => {
                     if(err) {
-                        console.log(err);
-                        return result(err.code);
+                        console.log(`update token error(update): ${err}`);
+                        return result(`update token error(update): ${err.code}`);
                     } else
                         return result('SUCCESS');
                 });
             } else {
                 db.query('insert into token(`tk_username`, `tk_token`) values(?,?)', param, (err, row) => {
                     if(err) {
-                        console.log(err);
-                        return result(err.code);
+                        console.log(`update token error(insert): ${err}`);
+                        return result(`update token error(insert): ${err.code}`);
                     } else
                         return result('SUCCESS');
                 });
@@ -93,11 +93,22 @@ function update_token(username, token, result) {
 }
 module.exports.update_token = update_token;
 
+/* FCM Token 삭제 */
+function remove_token(token, result) {
+    db.query('delete from token where tk_token = ?', token, (err, row) => {
+        if(err) {
+            console.log(`remove token error(delete): ${err}`);
+            return result(`remove token error(delete): ${err.code}`);
+        } else
+            return result('SUCCESS');
+    });
+}
+
 /* FCM Token 정보 */
 function getTokens(username, tokens) {
     db.query('select tk_token from token where tk_username = ?', username, (err, row) => {
         if(err) {
-            console.log(err);
+            console.log(`getTokens error(select): ${err}`);
             tokens(null);
         } else {
             var tokens_ = new Array();
@@ -113,7 +124,7 @@ module.exports.getTokens = getTokens
 function getUser(username, user) {
     db.query('select * from member where mb_username = ?', username, (err, row) => {
         if(err) {
-            console.log(err);
+            console.log(`getUser error(select): ${err}`);
             user(null);
         }
         else if(row.length > 0) {

@@ -1,5 +1,5 @@
 var admin = require('firebase-admin');
-var serAccount = require('../firebase_adminSDK.json');
+var serAccount = require('firebase_adminSDK.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serAccount)

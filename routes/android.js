@@ -26,6 +26,13 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+/* 로그아웃 */
+router.post('/logout', function(req, res, next) {
+  common.remove_token(req.body.token, (result) => {
+    res.send(result);
+  });
+});
+
 /* 회원정보 */
 router.post('/getUser', function(req, res, next) {
   common.getUser(req.body.username, (user) => {
