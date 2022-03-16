@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('imbutler:server');
 var http = require('http');
+var common = require('../routes/common');
 
 /**
  * Get port from environment and store in Express.
@@ -91,6 +92,7 @@ function onListening() {
 
 var io = require('socket.io')(server);
 var firebase = require('../config/firebase_config');
+const { common_ } = require('protobufjs');
 
 var users = new Array();
 
@@ -110,13 +112,19 @@ io.on('connection', (socket)=>{
         io.to(socket_.id).emit('message', data);
       }); //접속된 모든 플랫폼에 전송(Socket.io)
     
-    if(users.filter(user => user.handshake.query.username == data.to && user.handshake.query.to == data.from).length < 1) {
+    common.getTokens(data.to, (tokens) => {
+      users.filter(user => user.handshake.query.username == data.to && user.handshake.query.to == data.from)
+      .forEach((socket_, index, array) => {
+        tokens = tokens.filter(token => token != socket_.handshake.query.token);
+      });
+
       firebase.fcm_msg(
         data.from,
         data.msg,
-        'cqf9yRdMRMmv1nkLEf4M7O:APA91bFlGP9SaovOxEWtyOAlOiKH-3Pg2bc-ioaOFPkvtKqghl7HVs5i1H84h7Ij3PEhvgjraGZbsLBlD502RLYlP5c_hLLVSCH2mpsn6gaUQH7Z4wPPf1IuDQ_tMSxtakSnw0NhR2nQ'
-      );  
-    }
+        tokens
+      );
+    });
+
     console.log(`[CHAT] message : ${JSON.stringify(data)}`);
   });
   socket.on('disconnect', async () => {

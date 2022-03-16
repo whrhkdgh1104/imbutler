@@ -64,6 +64,51 @@ function login(username, password, result) {
 }
 module.exports.login = login;
 
+/* FCM Token 관리 */
+function update_token(username, token, result) {
+    const param = [username, token];
+    db.query('select * from token where tk_token = ?', token, (err, row) => {
+        if(err) {
+            console.log(err);
+            return result(err.code);
+        } else
+            if(row.length) {
+                db.query('update token set tk_username = ? where tk_token = ?', param, (err, row) => {
+                    if(err) {
+                        console.log(err);
+                        return result(err.code);
+                    } else
+                        return result('SUCCESS');
+                });
+            } else {
+                db.query('insert into token(`tk_username`, `tk_token`) values(?,?)', param, (err, row) => {
+                    if(err) {
+                        console.log(err);
+                        return result(err.code);
+                    } else
+                        return result('SUCCESS');
+                });
+            }
+    });
+}
+module.exports.update_token = update_token;
+
+/* FCM Token 정보 */
+function getTokens(username, tokens) {
+    db.query('select tk_token from token where tk_username = ?', username, (err, row) => {
+        if(err) {
+            console.log(err);
+            tokens(null);
+        } else {
+            var tokens_ = new Array();
+            for(var i in row)
+                tokens_.push(row[i].tk_token);
+            tokens(tokens_);
+        }
+    });
+}
+module.exports.getTokens = getTokens
+
 /* 회원정보 */
 function getUser(username, user) {
     db.query('select * from member where mb_username = ?', username, (err, row) => {

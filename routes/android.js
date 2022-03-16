@@ -10,13 +10,18 @@ router.post('/register', function(req, res, next) {
                  req.body.phone,
                  req.body.address];
   common.register(res, param, (result) => {
-      res.send(result);
+    res.send(result);
   });
 });
 
 /* 로그인 */
 router.post('/login', function(req, res, next) {
   common.login(req.body.username, req.body.password, (result) => {
+    if(result == 'SUCCESS') {
+      common.update_token(req.body.username, req.body.token, (result) => {
+        res.send(result);
+      });
+    } else
       res.send(result);
   });
 });

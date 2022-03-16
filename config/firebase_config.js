@@ -6,16 +6,17 @@ admin.initializeApp({
 });
 
 function fcm_msg(title, body, token, type='chat') {
+  if(token.length) {
     var msg = {
       data: {
         title: title,
         body: body,
         type: type
       },
-      token: token
+      tokens: token
     }
     
-    admin.messaging().send(msg)
+    admin.messaging().sendMulticast(msg)
     .then((response) => {
       // Response is a message ID string.
       console.log('Successfully sent message:', response);
@@ -23,5 +24,7 @@ function fcm_msg(title, body, token, type='chat') {
     .catch((error) => {
       console.log('Error sending message:', error);
     });
+  } else
+    console.log('Successfully sent message: No one received')
 }
 module.exports.fcm_msg = fcm_msg;
