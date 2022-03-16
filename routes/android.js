@@ -28,8 +28,8 @@ router.post('/login', function(req, res, next) {
 
 /* 로그아웃 */
 router.post('/logout', function(req, res, next) {
+  console.log('s' + req.body.token);
   common.remove_token(req.body.token, (result) => {
-    console.log(req.body.token);
     res.send(result);
   });
 });
