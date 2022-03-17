@@ -120,6 +120,7 @@ io.on('connection', (socket)=>{
 
       firebase.fcm_msg(
         data.from,
+        data.to,
         data.msg,
         tokens
       );
