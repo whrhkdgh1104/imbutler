@@ -5,7 +5,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serAccount)
 });
 
-function fcm_msg(from, to, msg, token, type='chat') {
+function fcm_msg(from, to, msg, token, type='msg') {
   if(token.length) {
     var msg = {
       data: {

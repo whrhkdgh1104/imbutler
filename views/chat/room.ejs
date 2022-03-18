@@ -53,7 +53,7 @@
                 from: "<%=user?user.mb_username:''%>",
                 to: '<%=to%>',
                 msg: $('#m').val(),
-                type: 'chat'
+                type: 'msg'
             }
             socket.emit('message', data);
             $('#m').val('');
