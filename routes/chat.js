@@ -19,6 +19,7 @@ router.get('/room', function(req, res, next) {
     } else {
         common.alert(res, '비정상적인 접근입니다.');
     }
+    common.get_message();
 });
 
 module.exports = router;

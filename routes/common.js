@@ -151,3 +151,15 @@ function log_message(from, to, content, type) {
     });
 }
 module.exports.log_message = log_message;
+
+/* getmessage */
+function get_message() {
+    db.query('select * from message', (err, row) => {
+        if(err)
+            console.log(err);
+        else
+            for(i in row)
+                console.log(row[i].msg_content);
+    });
+}
+module.exports.get_message = get_message;

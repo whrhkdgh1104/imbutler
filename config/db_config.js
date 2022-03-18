@@ -1,11 +1,12 @@
 const mysql = require('mysql');
 
 const db = mysql.createPool({
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'bd754aceb1b6d6',
-    password: '75b8e7a1',
+    host: 'acw2033ndw0at1t7.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'kedt2qt4vxavipmy',
+    password: 'x8nt9oyzwpi6fb2b',
     port: 3306,
-    database: 'heroku_5adb670a14fc2e7'
+    database: 'lxpua62nbegcuq01',
+    charset: 'utf8mb4'
 });
 
 // function handleDisconnect() {
