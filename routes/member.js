@@ -25,7 +25,7 @@ router.post('/register', function(req, res, next) {
                  req.body.password,
                  req.body.name,
                  req.body.phone,
-                 req.body.addrRoad + ' ' + req.body.addrDetail];
+                 `${req.body.addrRoad} ${req.body.addrDetail}`];
   common.register(res, param, (result) => {
     switch(result) {
       case 'SUCCESS':

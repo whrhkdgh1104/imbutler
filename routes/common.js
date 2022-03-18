@@ -136,3 +136,18 @@ function getUser(username, user) {
     });
 }
 module.exports.getUser = getUser;
+
+/* 메시지 로그 */
+function log_message(from, to, content, type) {
+    const param = [from,
+                   to,
+                   content,
+                   type];
+    db.query('insert into message(`msg_from`, `msg_to`, `msg_content`, `msg_type`) values (?, ?, ?, ?)', param, (err, row) => {
+        if(err)
+            console.log(`log message error(insert): ${err}`);
+        else
+            console.log(`log message complete: ${param}`);
+    });
+}
+module.exports.log_message = log_message;

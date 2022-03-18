@@ -105,6 +105,7 @@ io.on('connection', (socket)=>{
     console.log(`[CHAT] message all : ${JSON.stringify(data)}`);
   });
   socket.on('message', (data) => { //1:1 채팅
+    /* SocketIO Broadcast */
     users.filter(user =>
       (user.handshake.query.username == data.from && user.handshake.query.to == data.to) ||
       (user.handshake.query.username == data.to && user.handshake.query.to == data.from))
@@ -112,6 +113,7 @@ io.on('connection', (socket)=>{
         io.to(socket_.id).emit('message', data);
       }); //접속된 모든 플랫폼에 전송(Socket.io)
     
+    /* FCM Broadcast */
     common.getTokens(data.to, (tokens) => {
       users.filter(user => user.handshake.query.username == data.to && user.handshake.query.to == data.from)
       .forEach((socket_, index, array) => {
@@ -122,9 +124,13 @@ io.on('connection', (socket)=>{
         data.from,
         data.to,
         data.msg,
-        tokens
+        tokens,
+        data.type
       );
     });
+
+    /* Log Message */
+    common.log_message(data.from, data.to, data.msg, data.type);
 
     console.log(`[CHAT] message : ${JSON.stringify(data)}`);
   });

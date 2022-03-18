@@ -52,7 +52,8 @@
             var data = {
                 from: "<%=user?user.mb_username:''%>",
                 to: '<%=to%>',
-                msg: $('#m').val()
+                msg: $('#m').val(),
+                type: 'text'
             }
             socket.emit('message', data);
             $('#m').val('');
